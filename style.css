@@ -140,33 +140,6 @@ ul {
   font-size: 1.1rem;
 }
 
-/* Placeholder images */
-.placeholder-img {
-  background-color: var(--color-bg-alt);
-  border: 1px solid #2a2a2a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-text-muted);
-  font-size: 0.8rem;
-  overflow: hidden;
-}
-
-.placeholder-img::after {
-  content: 'Photo';
-  font-family: var(--font-body);
-  opacity: 0.4;
-}
-
-.placeholder-img--portrait {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-}
-
-.placeholder-img--square {
-  width: 100%;
-  aspect-ratio: 1;
-}
 
 /* ========================================
    Navigation
@@ -348,11 +321,6 @@ ul {
   gap: 2.5rem;
 }
 
-.about__image {
-  max-width: 320px;
-  margin: 0 auto;
-}
-
 .about__text p {
   margin-bottom: 1.25rem;
 }
@@ -403,18 +371,6 @@ ul {
   color: var(--color-gold);
 }
 
-/* ========================================
-   Gallery
-   ======================================== */
-.gallery {
-  background-color: var(--color-bg-alt);
-}
-
-.gallery__grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-}
 
 /* ========================================
    Contact
@@ -479,6 +435,13 @@ ul {
   color: var(--color-text-muted);
 }
 
+.hours-note {
+  margin-top: 1rem;
+  color: var(--color-gold);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
 /* ========================================
    Footer
    ======================================== */
@@ -509,6 +472,21 @@ ul {
   color: var(--color-text-muted);
 }
 
+.footer__credit {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.footer__credit a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer__credit a:hover {
+  color: var(--color-gold);
+}
+
 .footer__social a {
   color: var(--color-text-muted);
   transition: color 0.2s;
@@ -532,25 +510,11 @@ ul {
     align-items: center;
   }
 
-  .about__image {
-    flex: 0 0 280px;
-    margin: 0;
-  }
-
-  .about__text {
-    flex: 1;
-  }
-
-  .services__grid {
+.services__grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .gallery__grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-  }
-
-  .contact__inner {
+.contact__inner {
     flex-direction: row;
   }
 
@@ -596,11 +560,7 @@ ul {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .about__image {
-    flex: 0 0 340px;
-  }
-
-  .section__title {
+.section__title {
     font-size: 2.5rem;
   }
 }
