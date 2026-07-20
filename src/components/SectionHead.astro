@@ -1,0 +1,24 @@
+---
+/*
+  Every section opens the same way: a short helix segment (the barber pole,
+  cut to length), an eyebrow set in the ledger mono, then the heading. The
+  helix is the site's one recurring device, so it does the structural work and
+  nothing else has to shout.
+*/
+interface Props {
+  eyebrow: string;
+  heading: string;
+  intro?: string;
+  align?: 'left' | 'center';
+}
+const { eyebrow, heading, intro, align = 'left' } = Astro.props;
+---
+
+<div class:list={['max-w-2xl', align === 'center' && 'mx-auto text-center']}>
+  <div class:list={['flex items-center gap-3', align === 'center' && 'justify-center']}>
+    <span class="helix h-5 w-1.5 rounded-full" aria-hidden="true"></span>
+    <span class="ledger text-xs text-accent">{eyebrow}</span>
+  </div>
+  <h2 class="mt-4 text-5xl font-extrabold text-ink md:text-6xl">{heading}</h2>
+  {intro && <p class="mt-4 text-lg leading-relaxed text-ink-2">{intro}</p>}
+</div>

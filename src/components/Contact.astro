@@ -1,0 +1,313 @@
+---
+import site from '../data/site.json';
+import SectionHead from './SectionHead.astro';
+const { contact } = site;
+const tel = contact.phoneHref || contact.phone;
+const addr = contact.address || {};
+const hasAddress = Boolean(addr.street || addr.city);
+const hours = contact.hours || [];
+const social = Object.entries(contact.social || {}).filter(([, v]) => v);
+// The form only renders once a relay endpoint + siteId are set. Until then the
+// section leads with booking, call, and text, which is how barbershops are
+// actually contacted.
+const hasForm = Boolean(contact.formEndpoint && contact.siteId);
+const turnstileSiteKey = contact.turnstileSiteKey;
+const mapsLink = hasAddress
+  ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      [addr.street, addr.city, addr.region, addr.postalCode].filter(Boolean).join(', ')
+    )}`
+  : '';
+---
+
+<section id="contact" class="border-t border-line bg-bg-2">
+  <div class="mx-auto max-w-6xl px-5 py-24">
+    <SectionHead
+      eyebrow="Take a seat"
+      heading={contact.heading || 'Book a cut'}
+      intro={contact.intro}
+    />
+
+    <div class="mt-12 grid gap-10 md:grid-cols-2">
+      <div>
+        {/* Booking first: the phone number is the product here, so it leads. */}
+        {
+          contact.bookingUrl && (
+            <a
+              href={contact.bookingUrl}
+              target="_blank"
+              rel="noopener"
+              class="ledger mb-4 block rounded-sm bg-accent px-6 py-5 text-center text-xs font-semibold text-on-accent transition hover:bg-accent-2"
+            >
+              Book online
+            </a>
+          )
+        }
+        {
+          tel && (
+            <div class="grid grid-cols-2 gap-3">
+              <a
+                href={`tel:${tel}`}
+                class="ledger rounded-sm bg-accent px-6 py-5 text-center text-xs font-semibold text-on-accent transition hover:bg-accent-2"
+              >
+                Call Max
+              </a>
+              <a
+                href={`sms:${tel}`}
+                class="ledger rounded-sm border border-line px-6 py-5 text-center text-xs font-semibold text-ink transition hover:border-accent hover:text-accent"
+              >
+                Text Max
+              </a>
+            </div>
+          )
+        }
+
+        <dl class="mt-10 space-y-6">
+          {
+            contact.phone && (
+              <div>
+                <dt class="ledger text-[0.7rem] text-ink-3">Phone</dt>
+                <dd class="mt-1">
+                  <a
+                    href={`tel:${tel}`}
+                    class="font-display text-3xl font-bold uppercase text-accent hover:text-ink"
+                  >
+                    {contact.phone}
+                  </a>
+                  {contact.textOk && (
+                    <span class="ledger ml-3 text-[0.65rem] text-ink-3">Text is fine</span>
+                  )}
+                </dd>
+              </div>
+            )
+          }
+          {
+            contact.email && (
+              <div>
+                <dt class="ledger text-[0.7rem] text-ink-3">Email</dt>
+                <dd class="mt-1">
+                  <a href={`mailto:${contact.email}`} class="text-ink-2 hover:text-accent">
+                    {contact.email}
+                  </a>
+                </dd>
+              </div>
+            )
+          }
+          {
+            hasAddress && (
+              <div>
+                <dt class="ledger text-[0.7rem] text-ink-3">Where</dt>
+                <dd class="mt-1 text-ink-2">
+                  {addr.street && <div>{addr.street}</div>}
+                  <div>{[addr.city, addr.region, addr.postalCode].filter(Boolean).join(', ')}</div>
+                  {/* No street address is published, so point people at the
+                      one way to get it: asking. */}
+                  {addr.street ? (
+                    <a
+                      href={mapsLink}
+                      target="_blank"
+                      rel="noopener"
+                      class="ledger mt-2 inline-block text-[0.7rem] text-accent hover:text-ink"
+                    >
+                      Get directions &rarr;
+                    </a>
+                  ) : (
+                    <p class="ledger mt-2 text-[0.65rem] text-ink-3">
+                      Exact address sent when you book
+                    </p>
+                  )}
+                </dd>
+              </div>
+            )
+          }
+          {
+            Array.isArray(contact.areaServed) && contact.areaServed.length > 0 && (
+              <div>
+                <dt class="ledger text-[0.7rem] text-ink-3">Who comes in</dt>
+                <dd class="mt-1 text-ink-2">{contact.areaServed.join(' · ')}</dd>
+              </div>
+            )
+          }
+          {
+            social.length > 0 && (
+              <div>
+                <dt class="ledger text-[0.7rem] text-ink-3">Follow</dt>
+                <dd class="mt-1 flex flex-wrap gap-4">
+                  {social.map(([name, url]) => (
+                    <a
+                      href={url}
+                      target="_blank"
+                      rel="noopener"
+                      class="text-ink-2 capitalize hover:text-accent"
+                    >
+                      {name}
+                    </a>
+                  ))}
+                </dd>
+              </div>
+            )
+          }
+        </dl>
+      </div>
+
+      <div>
+        {/* Hours, kept as a ledger. Today's row lights up client-side. */}
+        {
+          hours.length > 0 && (
+            <div class="rounded-sm border border-line">
+              <div class="ledger border-b border-line px-5 py-3.5 text-[0.7rem] text-ink-3">
+                Hours
+              </div>
+              <table class="w-full">
+                <tbody>
+                  {hours.map((h: { day: string; time: string }) => (
+                    <tr data-day={h.day} class="border-b border-line/60 last:border-0">
+                      <th
+                        scope="row"
+                        class="w-1/2 px-5 py-3 text-left font-body text-sm font-medium text-ink-2"
+                      >
+                        {h.day}
+                      </th>
+                      <td class="px-5 py-3 text-right font-mono text-sm text-ink-2">{h.time}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )
+        }
+
+        {
+          hasForm && (
+            <form id="contact-form" class="mt-6 space-y-4 rounded-sm border border-line bg-bg p-6">
+              <input type="hidden" name="siteId" value={contact.siteId} />
+              {/* Honeypot: bots fill this, humans never see it. */}
+              <input
+                type="checkbox"
+                name="botcheck"
+                class="hidden"
+                style="display:none"
+                tabindex="-1"
+                autocomplete="off"
+              />
+              <div>
+                <label for="name" class="ledger mb-1.5 block text-[0.7rem] text-ink-3">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  required
+                  class="w-full rounded-sm border border-line bg-bg-2 px-3 py-2.5 text-ink"
+                />
+              </div>
+              <div>
+                <label for="email" class="ledger mb-1.5 block text-[0.7rem] text-ink-3">
+                  Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  required
+                  class="w-full rounded-sm border border-line bg-bg-2 px-3 py-2.5 text-ink"
+                />
+              </div>
+              <div>
+                <label for="phone" class="ledger mb-1.5 block text-[0.7rem] text-ink-3">
+                  Phone
+                </label>
+                <input
+                  id="phone"
+                  name="phone"
+                  class="w-full rounded-sm border border-line bg-bg-2 px-3 py-2.5 text-ink"
+                />
+              </div>
+              <div>
+                <label for="message" class="ledger mb-1.5 block text-[0.7rem] text-ink-3">
+                  What are you after?
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="4"
+                  required
+                  class="w-full rounded-sm border border-line bg-bg-2 px-3 py-2.5 text-ink"
+                />
+              </div>
+              {turnstileSiteKey && <div class="cf-turnstile" data-sitekey={turnstileSiteKey} />}
+              <button
+                type="submit"
+                class="ledger w-full rounded-sm bg-accent px-6 py-4 text-xs font-semibold text-on-accent transition hover:bg-accent-2"
+              >
+                Send message
+              </button>
+              <p data-form-status class="text-sm text-ink-2" aria-live="polite" />
+            </form>
+          )
+        }
+
+        {
+          contact.mapEmbedUrl && (
+            <iframe
+              src={contact.mapEmbedUrl}
+              class="mt-4 h-72 w-full rounded-sm border border-line"
+              loading="lazy"
+              title={`Map to ${site.business.name}`}
+              referrerpolicy="no-referrer-when-downgrade"
+            />
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  // Light up today's row in the hours table so the answer to "are they open?"
+  // takes no reading.
+  const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+  const row = document.querySelector(`tr[data-day="${today}"]`);
+  if (row) {
+    row.classList.add('bg-surface');
+    row.querySelectorAll('th, td').forEach((cell) => {
+      cell.classList.remove('text-ink-2');
+      cell.classList.add('text-ink');
+    });
+  }
+</script>
+
+{
+  hasForm && (
+    <script is:inline define:vars={{ endpoint: contact.formEndpoint }}>
+      const form = document.getElementById('contact-form');
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const status = form.querySelector('[data-form-status]');
+          const btn = form.querySelector('button[type=submit]');
+          btn.disabled = true;
+          status.textContent = 'Sending…';
+          try {
+            const data = Object.fromEntries(new FormData(form));
+            const res = await fetch(endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data),
+            });
+            const out = await res.json().catch(() => ({}));
+            if (res.ok && out.success) {
+              form.reset();
+              status.textContent = 'Sent. You will hear back shortly.';
+            } else {
+              status.textContent = 'That did not send. Call or text instead.';
+              btn.disabled = false;
+            }
+          } catch {
+            status.textContent = 'That did not send. Call or text instead.';
+            btn.disabled = false;
+          }
+        });
+      }
+    </script>
+  )
+}

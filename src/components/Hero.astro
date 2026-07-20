@@ -1,0 +1,89 @@
+---
+import site from '../data/site.json';
+const { hero, business, contact } = site;
+const tel = contact.phoneHref || contact.phone;
+const book = contact.bookingUrl;
+const hasImage = Boolean(hero.image);
+// The wordmark is the hero. It is set enormous and condensed, so it holds the
+// page on its own when there is no photograph, and reads as signage when
+// there is one behind it.
+const facts = (hero.facts || []).filter((f: { label: string; value: string }) => f.value);
+---
+
+<section id="top" class="relative overflow-hidden border-b border-line">
+  {
+    hasImage && (
+      <>
+        <img
+          src={hero.image}
+          alt=""
+          class="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+          fetchpriority="high"
+        />
+        {/* Scrim in the harbor color, heaviest at the bottom where type sits. */}
+        <div class="absolute inset-0 bg-bg/75"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-bg/10"></div>
+      </>
+    )
+  }
+
+  <div class="relative mx-auto max-w-6xl px-5 pb-14 pt-16 md:pb-20 md:pt-24">
+    <div class="flex items-center gap-3">
+      <span class="helix h-5 w-1.5 rounded-full" aria-hidden="true"></span>
+      <span class="ledger text-xs text-accent">{business.tagline}</span>
+    </div>
+
+    <h1
+      class="mt-6 max-w-[7ch] font-display font-extrabold uppercase text-ink"
+      style="font-size:clamp(4.5rem,17vw,12rem);line-height:0.82;letter-spacing:0.01em"
+    >
+      {hero.headline}
+    </h1>
+
+    <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-2 md:text-xl">{hero.sub}</p>
+
+    <div class="mt-9 flex flex-wrap gap-3">
+      {
+        book && (
+          <a
+            href={book}
+            target="_blank"
+            rel="noopener"
+            class="ledger rounded-sm bg-accent px-7 py-4 text-xs font-semibold text-on-accent transition hover:bg-accent-2"
+          >
+            {hero.primaryCtaLabel || 'Book a cut'}
+          </a>
+        )
+      }
+      {
+        tel && (
+          <a
+            href={`tel:${tel}`}
+            class:list={[
+              'ledger rounded-sm px-7 py-4 text-xs font-semibold transition',
+              book
+                ? 'border border-line text-ink hover:border-accent hover:text-accent'
+                : 'bg-accent text-on-accent hover:bg-accent-2',
+            ]}
+          >
+            Call {contact.phone}
+          </a>
+        )
+      }
+    </div>
+
+    {
+      facts.length > 0 && (
+        <dl class="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-sm border border-line bg-line md:grid-cols-4">
+          {facts.map((f: { label: string; value: string }) => (
+            <div class="bg-bg-2 px-5 py-4">
+              <dt class="ledger text-[0.65rem] text-ink-3">{f.label}</dt>
+              <dd class="mt-1.5 font-display text-2xl font-bold uppercase text-ink">{f.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )
+    }
+  </div>
+</section>

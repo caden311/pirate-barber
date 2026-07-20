@@ -1,0 +1,3 @@
+# Astro emits sitemap-index.xml. The old hand-written site served sitemap.xml,
+# and that URL is what Google Search Console already has, so keep it alive.
+/sitemap.xml  /sitemap-index.xml  301

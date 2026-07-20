@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Pirate Barber">
+  <!-- The barber pole, reduced to the one shape that still reads at 16px. -->
+  <rect width="64" height="64" rx="12" fill="#0c1b22"/>
+  <defs>
+    <clipPath id="pole">
+      <rect x="21" y="8" width="22" height="48" rx="11"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#pole)">
+    <rect x="21" y="8" width="22" height="48" fill="#f0eadd"/>
+    <g stroke="#c4392c" stroke-width="9" stroke-linecap="square">
+      <path d="M14 20 L50 -16"/>
+      <path d="M14 40 L50 4"/>
+      <path d="M14 60 L50 24"/>
+      <path d="M14 80 L50 44"/>
+    </g>
+  </g>
+  <rect x="21" y="8" width="22" height="48" rx="11" fill="none" stroke="#c9922e" stroke-width="3"/>
+</svg>

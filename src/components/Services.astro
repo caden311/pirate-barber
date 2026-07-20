@@ -1,0 +1,45 @@
+---
+import site from '../data/site.json';
+import SectionHead from './SectionHead.astro';
+const { services, contact } = site;
+const items = services?.items || [];
+const book = contact.bookingUrl;
+---
+
+{
+  items.length > 0 && (
+    <section id="services" class="mx-auto max-w-6xl px-5 py-24">
+      <SectionHead eyebrow="The board" heading={services.heading} intro={services.intro} />
+
+      {/* A shop price board: name on the left, price on the right, a brass
+          rule carrying your eye across. Prices are mono so the column lines up. */}
+      <ul class="mt-12 border-t border-line">
+        {items.map((item: { name: string; description?: string; price?: string; note?: string }) => (
+          <li class="border-b border-line py-6">
+            <div class="flex items-baseline gap-4">
+              <h3 class="text-3xl font-bold text-ink">{item.name}</h3>
+              <span class="h-px flex-1 bg-line" aria-hidden="true" />
+              {item.price && (
+                <span class="font-mono text-xl font-medium text-accent">{item.price}</span>
+              )}
+            </div>
+            {item.description && <p class="mt-2 max-w-xl text-ink-2">{item.description}</p>}
+          </li>
+        ))}
+      </ul>
+
+      {services.note && <p class="ledger mt-6 text-xs text-ink-3">{services.note}</p>}
+
+      {book && (
+        <a
+          href={book}
+          target="_blank"
+          rel="noopener"
+          class="ledger mt-10 inline-block rounded-sm bg-accent px-7 py-4 text-xs font-semibold text-on-accent transition hover:bg-accent-2"
+        >
+          Book a cut
+        </a>
+      )}
+    </section>
+  )
+}

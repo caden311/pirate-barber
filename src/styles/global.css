@@ -1,0 +1,106 @@
+@import 'tailwindcss';
+
+/*
+  Pirate Barber — design tokens.
+
+  Direction: "ship's log". A barber pole and a length of rigging rope are the
+  same helix, so the site's signature device is a barber-pole rail that runs
+  the page. Everything around it stays quiet: deep harbor teal (never flat
+  black), bone type, oxidized brass for structure and actions, and one
+  traditional flash red reserved almost entirely for the helix.
+
+  Type: ultra-condensed poster display for headlines (shop awning / fight
+  poster), a slightly mechanical grotesque for body, and mono for prices,
+  hours, and labels so the price board reads like a ship's manifest.
+*/
+@theme {
+  --font-display: 'Big Shoulders Display', 'Arial Narrow', sans-serif;
+  --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* Field: deep harbor, warm-cool, never flat black */
+  --color-bg: #0c1b22;
+  --color-bg-2: #102630;
+  --color-surface: #16323d;
+  --color-line: #24475a;
+
+  /* Type on dark: aged sailcloth, not pure white */
+  --color-ink: #f0eadd;
+  --color-ink-2: #b8c5cb;
+  --color-ink-3: #7c8f99;
+
+  /* Oxidized brass — rules, structure, primary action */
+  --color-accent: #c9922e;
+  --color-accent-2: #a8761f;
+  --color-on-accent: #0c1b22;
+
+  /* Traditional flash red — the helix and almost nothing else */
+  --color-flash: #c4392c;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* the sticky header must not cover a heading on an anchor jump */
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  line-height: 0.9;
+}
+
+/* Ledger label: hours, prices, eyebrows — anything that should read as
+   something entered in a log book rather than written as prose. */
+.ledger {
+  font-family: var(--font-mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/*
+  The signature: a barber-pole helix, drawn as a repeating gradient so it costs
+  nothing, and animated so it climbs the way a real pole does.
+*/
+.helix {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-flash) 0 7px,
+    var(--color-ink) 7px 14px,
+    var(--color-bg-2) 14px 21px,
+    var(--color-ink) 21px 28px
+  );
+  background-size: 200% 40px;
+  animation: helix-climb 2.6s linear infinite;
+}
+
+@keyframes helix-climb {
+  to {
+    background-position: 0 -40px;
+  }
+}
+
+/* Keyboard users must always be able to see where they are. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .helix {
+    animation: none;
+  }
+}

@@ -1,0 +1,73 @@
+---
+import site from '../data/site.json';
+import SectionHead from './SectionHead.astro';
+const { testimonials, contact } = site;
+// Only real, verifiable reviews. Nothing here is ever written for the client.
+const items = (testimonials?.items || []).filter((t: { quote: string }) => t.quote);
+const reviewsUrl = contact?.social?.google;
+const single = items.length === 1;
+---
+
+{
+  items.length > 0 && (
+    <section id="reviews" class="border-y border-line bg-bg-2">
+      <div class="mx-auto max-w-6xl px-5 py-24">
+        <SectionHead
+          eyebrow="Reviews"
+          heading={testimonials.heading}
+          intro={testimonials.intro}
+        />
+
+        {/* One review is a statement, not a grid. Set it large rather than
+            padding a three-column layout with empty space. */}
+        <div
+          class:list={[
+            'mt-12 grid gap-4',
+            items.length === 2 && 'md:grid-cols-2',
+            items.length > 2 && 'md:grid-cols-3',
+          ]}
+        >
+          {items.map((t: { quote: string; name?: string; detail?: string; rating?: number }) => (
+            <figure
+              class:list={[
+                'flex flex-col rounded-sm border border-line bg-bg',
+                single ? 'p-8 md:p-12' : 'p-6',
+              ]}
+            >
+              {t.rating && (
+                <div class="mb-5 text-accent" aria-label={`${t.rating} out of 5 stars`}>
+                  <span aria-hidden="true" class="tracking-[0.25em]">
+                    {'★'.repeat(t.rating)}
+                  </span>
+                </div>
+              )}
+              <blockquote
+                class:list={[
+                  'flex-1 leading-snug text-ink',
+                  single ? 'font-display text-4xl font-bold uppercase md:text-5xl' : 'text-lg leading-relaxed',
+                ]}
+              >
+                &ldquo;{t.quote}&rdquo;
+              </blockquote>
+              <figcaption class="ledger mt-6 text-[0.7rem] text-ink-3">
+                {t.name}
+                {t.detail && <> &middot; {t.detail}</>}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+
+        {reviewsUrl && (
+          <a
+            href={reviewsUrl}
+            target="_blank"
+            rel="noopener"
+            class="ledger mt-8 inline-block text-xs text-accent transition hover:text-ink"
+          >
+            Read every review &rarr;
+          </a>
+        )}
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,176 @@
+{
+  "_note": "Single source of truth for all site copy. Every claim here is either verified from a public source or supplied by the client. Items flagged in HANDOFF.md still need Max to confirm.",
+  "siteUrl": "https://piratebarber.vientapps.com",
+  "mode": "signed",
+  "business": {
+    "name": "Pirate Barber",
+    "logoText": "Pirate Barber",
+    "tagline": "Cove, Utah · Serving Cache Valley",
+    "industry": "barbershop",
+    "shortDescription": "A one-chair barbershop in Cove, Utah, taking clients from across Cache Valley.",
+    "yearEstablished": "",
+    "serviceArea": true,
+    "priceRange": "$$"
+  },
+  "seo": {
+    "title": "Pirate Barber | Barber Serving Logan & Cache Valley, UT",
+    "description": "Max cuts hair in Cove, Utah and takes clients from across Cache Valley. Haircuts $35, shaves $20, kids $20. Call or text (435) 764-5900 to book.",
+    "keywords": [
+      "barber cache valley",
+      "barber near logan utah",
+      "haircut cove utah",
+      "barbershop cache valley utah"
+    ],
+    "ogImage": "/og.png"
+  },
+  "nav": [
+    { "label": "Services", "href": "#services" },
+    { "label": "The Barber", "href": "#about" },
+    { "label": "Reviews", "href": "#reviews" },
+    { "label": "FAQ", "href": "#faq" },
+    { "label": "Book", "href": "#contact" }
+  ],
+  "hero": {
+    "headline": "Pirate Barber",
+    "sub": "One barber, one chair, in Cove, Utah. Precision cuts and clean shaves for Logan and the rest of Cache Valley.",
+    "primaryCtaLabel": "Book a cut",
+    "image": "",
+    "imageAlt": "",
+    "facts": [
+      { "label": "Based in", "value": "Cove, Utah" },
+      { "label": "Serving", "value": "Cache Valley" },
+      { "label": "Cuts from", "value": "$20" },
+      { "label": "To book", "value": "Call or text" }
+    ]
+  },
+  "services": {
+    "heading": "Services",
+    "intro": "Three things, done properly. Prices are flat, and what you see is what you pay.",
+    "note": "Appointments available outside the listed hours — just ask.",
+    "items": [
+      {
+        "name": "Haircut",
+        "description": "Consultation, shampoo, cut, and styling. Bring a picture or bring nothing; sorting out what you actually want is part of the job.",
+        "price": "$35",
+        "priceValue": "35.00"
+      },
+      {
+        "name": "Shave",
+        "description": "A clean, close shave and a sharp finish.",
+        "price": "$20",
+        "priceValue": "20.00"
+      },
+      {
+        "name": "Kids Cut",
+        "description": "A fresh cut for the little ones, ages 12 and under.",
+        "price": "$20",
+        "priceValue": "20.00"
+      }
+    ]
+  },
+  "about": {
+    "eyebrow": "Behind the chair",
+    "heading": "Meet Max",
+    "body": "Pirate Barber is Max: one barber, one chair, and no front desk to get past. He cuts in Cove, at the north end of Cache Valley, and people come up the valley for it.\n\nCall or text and you get a time straight from the person doing the cutting. Not sure what you're after? Say so. That is what the first five minutes are for.",
+    "points": [
+      "One barber, one chair",
+      "Cove, Utah",
+      "Serving all of Cache Valley",
+      "Call or text to book"
+    ],
+    "image": "",
+    "imageAlt": ""
+  },
+  "gallery": {
+    "heading": "The work",
+    "intro": "",
+    "images": []
+  },
+  "testimonials": {
+    "heading": "Word of mouth",
+    "intro": "",
+    "items": [
+      {
+        "quote": "Max always leaves me looking fresh. Great barber. Great experience.",
+        "name": "Caden Sorenson",
+        "detail": "Google review",
+        "rating": 5
+      }
+    ]
+  },
+  "faq": {
+    "heading": "Questions",
+    "items": [
+      {
+        "q": "Where is Pirate Barber?",
+        "a": "Cove, Utah, at the north end of Cache Valley up US-91 past Richmond. Clients come in from Logan, Smithfield, Hyde Park, Richmond, and Lewiston. Call or text for the exact address when you book."
+      },
+      {
+        "q": "Do I need an appointment?",
+        "a": "Yes. It is one barber and one chair, so call or text (435) 764-5900 to grab a time. Appointments outside the listed hours are usually doable if you ask."
+      },
+      {
+        "q": "How much is a haircut?",
+        "a": "A haircut is $35 and includes the consultation, shampoo, and styling. A shave is $20, and kids 12 and under are $20."
+      },
+      {
+        "q": "Can I book online?",
+        "a": "Not yet. Calling or texting (435) 764-5900 goes straight to Max, which is faster than any booking app anyway."
+      },
+      {
+        "q": "Do you cut kids' hair?",
+        "a": "Yes. Kids 12 and under are $20."
+      },
+      {
+        "q": "What are your hours?",
+        "a": "Tuesday and Wednesday 10am to 5pm, Thursday through Saturday 10am to 7pm, closed Sunday and Monday. Appointments outside those hours can usually be arranged."
+      }
+    ]
+  },
+  "contact": {
+    "heading": "Book a cut",
+    "intro": "There is no booking app. Call or text Max and you will have a time in a minute.",
+    "phone": "(435) 764-5900",
+    "phoneHref": "+14357645900",
+    "textOk": true,
+    "email": "",
+    "address": {
+      "street": "",
+      "city": "Cove",
+      "region": "UT",
+      "postalCode": "",
+      "country": "US"
+    },
+    "geo": { "lat": "", "lng": "" },
+    "areaServed": ["Logan", "Smithfield", "Richmond", "Hyde Park", "Lewiston", "Cove"],
+    "hours": [
+      { "day": "Sunday", "time": "Closed" },
+      { "day": "Monday", "time": "Closed" },
+      { "day": "Tuesday", "time": "10am – 5pm" },
+      { "day": "Wednesday", "time": "10am – 5pm" },
+      { "day": "Thursday", "time": "10am – 7pm" },
+      { "day": "Friday", "time": "10am – 7pm" },
+      { "day": "Saturday", "time": "10am – 7pm" }
+    ],
+    "openingHours": [
+      { "days": ["Tuesday", "Wednesday"], "opens": "10:00", "closes": "17:00" },
+      { "days": ["Thursday", "Friday", "Saturday"], "opens": "10:00", "closes": "19:00" }
+    ],
+    "mapEmbedUrl": "",
+    "bookingUrl": "",
+    "social": {
+      "instagram": "https://www.instagram.com/pirate.barber",
+      "google": "https://www.google.com/maps/place/Pirate+Barber/@41.972865,-111.829055,11z"
+    },
+    "formEndpoint": "",
+    "siteId": "",
+    "turnstileSiteKey": ""
+  },
+  "analytics": {
+    "cloudflareToken": "",
+    "cloudflareSiteTag": ""
+  },
+  "footer": {
+    "note": "Cuts by appointment"
+  }
+}

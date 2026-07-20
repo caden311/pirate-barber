@@ -1,0 +1,56 @@
+---
+import site from '../data/site.json';
+const { business, contact, footer } = site;
+const addr = contact.address || {};
+const year = new Date().getFullYear();
+const social = Object.entries(contact.social || {}).filter(([, v]) => v);
+---
+
+<footer class="border-t border-line bg-bg">
+  <div
+    class="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-12 md:flex-row md:items-end md:justify-between"
+  >
+    <div>
+      <div class="font-display text-4xl font-extrabold uppercase text-ink">{business.name}</div>
+      <div class="ledger mt-3 space-y-1 text-[0.7rem] text-ink-3">
+        {
+          (addr.city || addr.street) && (
+            <div>{[addr.street, addr.city, addr.region].filter(Boolean).join(' · ')}</div>
+          )
+        }
+        {contact.phone && <div>{contact.phone}</div>}
+        {footer?.note && <div>{footer.note}</div>}
+      </div>
+      {
+        social.length > 0 && (
+          <div class="mt-4 flex gap-4">
+            {social.map(([name, url]) => (
+              <a
+                href={url}
+                target="_blank"
+                rel="noopener"
+                class="ledger text-[0.7rem] capitalize text-ink-2 hover:text-accent"
+              >
+                {name}
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+
+    <div class="ledger space-y-1 text-[0.65rem] text-ink-3 md:text-right">
+      <div>&copy; {year} {business.name}</div>
+      <div>
+        Created by <a
+          href="https://vient.org"
+          target="_blank"
+          rel="noopener"
+          class="text-ink-2 underline underline-offset-4 hover:text-accent">Vient</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="helix h-1.5 w-full" aria-hidden="true"></div>
+</footer>

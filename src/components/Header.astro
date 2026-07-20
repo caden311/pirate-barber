@@ -1,0 +1,92 @@
+---
+import site from '../data/site.json';
+const { business, nav, contact } = site;
+const tel = contact.phoneHref || contact.phone;
+const book = contact.bookingUrl;
+---
+
+<!-- The barber pole, unrolled: the helix runs the full width above the nav. -->
+<div class="helix h-1.5 w-full" aria-hidden="true"></div>
+
+<header class="sticky top-0 z-40 border-b border-line bg-bg/95 backdrop-blur">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
+    <a href="#top" class="font-display text-2xl font-extrabold uppercase tracking-wide text-ink">
+      {business.logoText || business.name}
+    </a>
+
+    <nav class="hidden items-center gap-7 md:flex" aria-label="Primary">
+      {
+        nav.map((item) => (
+          <a href={item.href} class="ledger text-xs text-ink-2 transition hover:text-accent">
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-2">
+      {
+        (book || tel) && (
+          <a
+            href={book || `tel:${tel}`}
+            {...(book ? { target: '_blank', rel: 'noopener' } : {})}
+            class="ledger rounded-sm bg-accent px-4 py-2.5 text-xs font-semibold text-on-accent transition hover:bg-accent-2"
+          >
+            {book ? 'Book a cut' : 'Call'}
+          </a>
+        )
+      }
+
+      <!-- Mobile menu. details/summary keeps it working without JavaScript. -->
+      <details class="relative md:hidden" id="mobile-nav">
+        <summary
+          class="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-sm border border-line text-ink marker:content-none"
+          aria-label="Menu"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            aria-hidden="true"
+          >
+            <path d="M3 6h14M3 10h14M3 14h14" stroke-linecap="round"></path>
+          </svg>
+        </summary>
+        <nav
+          class="absolute right-0 mt-2 w-52 rounded-sm border border-line bg-bg-2 p-2 shadow-2xl shadow-black/50"
+          aria-label="Primary"
+        >
+          {
+            nav.map((item) => (
+              <a
+                href={item.href}
+                class="ledger block rounded-sm px-3 py-3 text-xs text-ink-2 hover:bg-surface hover:text-ink"
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  // Close the mobile menu after a jump, and on Escape or an outside tap.
+  const mobileNav = document.getElementById('mobile-nav');
+  if (mobileNav) {
+    mobileNav
+      .querySelectorAll('a')
+      .forEach((a) => a.addEventListener('click', () => mobileNav.removeAttribute('open')));
+    document.addEventListener('click', (e) => {
+      if (!mobileNav.contains(e.target)) mobileNav.removeAttribute('open');
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') mobileNav.removeAttribute('open');
+    });
+  }
+</script>

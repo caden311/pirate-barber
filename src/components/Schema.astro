@@ -1,0 +1,111 @@
+---
+/*
+  JSON-LD for SEO + AEO + GEO.
+  - BarberShop (a LocalBusiness subtype) so search and answer engines can place
+    the business as an entity, with hours, location, and a priced service list.
+  - FAQPage so the FAQ is eligible for rich results and citable by answer engines.
+  Only filled fields are emitted, and aggregateRating is emitted only when a
+  real, sourced rating is present in site.json.
+*/
+import site from '../data/site.json';
+
+const { business, contact, seo, services, testimonials } = site;
+const baseUrl = (Astro.site ?? new URL('https://piratebarber.vientapps.com')).href.replace(/\/$/, '');
+
+const addr = contact.address || {};
+const address =
+  addr.street || addr.city
+    ? {
+        '@type': 'PostalAddress',
+        ...(addr.street && { streetAddress: addr.street }),
+        ...(addr.city && { addressLocality: addr.city }),
+        ...(addr.region && { addressRegion: addr.region }),
+        ...(addr.postalCode && { postalCode: addr.postalCode }),
+        ...(addr.country && { addressCountry: addr.country }),
+      }
+    : undefined;
+
+const geo =
+  contact.geo?.lat && contact.geo?.lng
+    ? { '@type': 'GeoCoordinates', latitude: contact.geo.lat, longitude: contact.geo.lng }
+    : undefined;
+
+const openingHoursSpecification = (contact.openingHours || []).map(
+  (h: { days: string[]; opens: string; closes: string }) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: h.days,
+    opens: h.opens,
+    closes: h.closes,
+  })
+);
+
+const offers = (services?.items || [])
+  .filter((s: { name: string }) => s.name)
+  .map((s: { name: string; description?: string; priceValue?: string }) => ({
+    '@type': 'Offer',
+    itemOffered: {
+      '@type': 'Service',
+      name: s.name,
+      ...(s.description && { description: s.description }),
+    },
+    ...(s.priceValue && { price: s.priceValue, priceCurrency: 'USD' }),
+  }));
+
+// Only ever emitted from a real, cited rating — never inferred. Absent from
+// site.json today (one self-authored review is not worth the spam risk), so
+// this is read loosely and stays dormant until a real rating is added.
+const rating = (testimonials as { aggregateRating?: { ratingValue?: string; reviewCount?: string } })
+  ?.aggregateRating;
+
+const localBusiness = {
+  '@context': 'https://schema.org',
+  '@type': 'BarberShop',
+  '@id': `${baseUrl}/#business`,
+  name: business.name,
+  description: seo.description || business.shortDescription,
+  url: baseUrl,
+  image: new URL(seo.ogImage || '/og.svg', `${baseUrl}/`).href,
+  ...(business.serviceArea ? {} : address ? { address } : {}),
+  ...(geo && { geo }),
+  ...(contact.phone && { telephone: contact.phoneHref || contact.phone }),
+  ...(contact.email && { email: contact.email }),
+  ...(business.priceRange && { priceRange: business.priceRange }),
+  ...(openingHoursSpecification.length && { openingHoursSpecification }),
+  ...(Array.isArray(contact.areaServed) && contact.areaServed.length
+    ? { areaServed: contact.areaServed.map((name: string) => ({ '@type': 'City', name })) }
+    : {}),
+  ...(offers.length && {
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: `${business.name} services`,
+      itemListElement: offers,
+    },
+  }),
+  ...(rating?.ratingValue &&
+    rating?.reviewCount && {
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: rating.ratingValue,
+        reviewCount: rating.reviewCount,
+      },
+    }),
+  sameAs: Object.values(contact.social || {}).filter(Boolean),
+};
+
+const faqItems = (site.faq?.items || []).filter((i: { q: string; a: string }) => i.q && i.a);
+const faqPage =
+  faqItems.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqItems.map((i: { q: string; a: string }) => ({
+          '@type': 'Question',
+          name: i.q,
+          acceptedAnswer: { '@type': 'Answer', text: i.a },
+        })),
+      }
+    : null;
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(localBusiness)} />
+{faqPage && <script type="application/ld+json" set:html={JSON.stringify(faqPage)} />}

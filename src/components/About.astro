@@ -1,0 +1,74 @@
+---
+import site from '../data/site.json';
+import SectionHead from './SectionHead.astro';
+const { about } = site;
+const points = about?.points || [];
+const paragraphs = (about?.body || '').split('\n\n').filter(Boolean);
+const hasImage = Boolean(about?.image);
+---
+
+{
+  paragraphs.length > 0 && (
+    <section id="about" class="border-y border-line bg-bg-2">
+      {/* With a portrait, heading and copy stack on the left against the photo.
+          Without one, the heading takes the left rail so the copy still has a
+          column to sit in and the section never reads half-empty. */}
+      <div
+        class:list={[
+          'mx-auto grid max-w-6xl gap-10 px-5 py-24 md:items-start md:gap-16',
+          hasImage ? 'md:grid-cols-[1.1fr_1fr]' : 'md:grid-cols-[1fr_1.6fr]',
+        ]}
+      >
+        <div class:list={[!hasImage && 'md:sticky md:top-24 md:self-start']}>
+          <SectionHead eyebrow={about.eyebrow || 'Behind the chair'} heading={about.heading} />
+          {hasImage && (
+            <>
+              <div class="mt-6 space-y-4 text-lg leading-relaxed text-ink-2">
+                {paragraphs.map((p: string) => (
+                  <p>{p}</p>
+                ))}
+              </div>
+              {points.length > 0 && (
+                <ul class="mt-8 grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
+                  {points.map((p: string) => (
+                    <li class="ledger bg-bg px-4 py-3 text-[0.7rem] text-ink-2">{p}</li>
+                  ))}
+                </ul>
+              )}
+            </>
+          )}
+        </div>
+
+        {hasImage ? (
+          <figure class="relative">
+            <img
+              src={about.image}
+              alt={about.imageAlt || ''}
+              class="aspect-[4/5] w-full rounded-sm border border-line object-cover"
+              loading="lazy"
+            />
+            <span
+              class="helix absolute -left-1.5 top-6 h-24 w-1.5 rounded-full"
+              aria-hidden="true"
+            />
+          </figure>
+        ) : (
+          <div>
+            <div class="space-y-5 text-xl leading-relaxed text-ink-2">
+              {paragraphs.map((p: string) => (
+                <p>{p}</p>
+              ))}
+            </div>
+            {points.length > 0 && (
+              <ul class="mt-10 grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
+                {points.map((p: string) => (
+                  <li class="ledger bg-bg px-4 py-4 text-[0.7rem] text-ink-2">{p}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,43 @@
+---
+import site from '../data/site.json';
+import SectionHead from './SectionHead.astro';
+const { gallery, contact } = site;
+const images = (gallery?.images || []).filter((i: { src: string }) => i.src);
+const instagram = contact?.social?.instagram;
+---
+
+{
+  images.length > 0 && (
+    <section id="work" class="mx-auto max-w-6xl px-5 py-24">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <SectionHead eyebrow="The work" heading={gallery.heading} intro={gallery.intro} />
+        {instagram && (
+          <a
+            href={instagram}
+            target="_blank"
+            rel="noopener"
+            class="ledger text-xs text-accent transition hover:text-ink"
+          >
+            More on Instagram &rarr;
+          </a>
+        )}
+      </div>
+
+      <div class="mt-12 grid grid-cols-2 gap-3 md:grid-cols-3">
+        {images.map((img: { src: string; alt?: string }, i: number) => (
+          <img
+            src={img.src}
+            alt={img.alt || ''}
+            class:list={[
+              'w-full rounded-sm border border-line object-cover',
+              // Break the grid's rhythm once so it reads as a wall of work
+              // rather than a stock photo tray.
+              i === 0 ? 'aspect-square md:col-span-2 md:aspect-[2/1]' : 'aspect-square',
+            ]}
+            loading="lazy"
+          />
+        ))}
+      </div>
+    </section>
+  )
+}

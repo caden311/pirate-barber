@@ -1,0 +1,37 @@
+---
+import site from '../data/site.json';
+import SectionHead from './SectionHead.astro';
+const { faq } = site;
+const items = (faq?.items || []).filter((i: { q: string; a: string }) => i.q && i.a);
+---
+
+{
+  items.length > 0 && (
+    <section id="faq" class="mx-auto max-w-6xl px-5 py-24">
+      {/* Heading holds the left rail while the questions run down the right,
+          so the section fills its width instead of stranding a column. */}
+      <div class="grid gap-10 md:grid-cols-[1fr_1.6fr] md:gap-16">
+        <div class="md:sticky md:top-24 md:self-start">
+          <SectionHead eyebrow="Before you sit down" heading={faq.heading} />
+        </div>
+
+        <div class="border-t border-line">
+        {items.map((item: { q: string; a: string }) => (
+          <details class="group border-b border-line">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-lg font-semibold text-ink marker:content-none hover:text-accent">
+              {item.q}
+              <span
+                aria-hidden="true"
+                class="font-mono text-xl text-accent transition-transform group-open:rotate-45"
+              >
+                +
+              </span>
+            </summary>
+            <p class="pb-5 pr-10 leading-relaxed text-ink-2">{item.a}</p>
+          </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
