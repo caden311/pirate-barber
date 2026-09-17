@@ -1,0 +1,109 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import site from '../data/site.json';
+
+const { business, contact } = site;
+const tel = contact.phoneHref || contact.phone;
+const phone = contact.phone;
+const lastUpdated = 'September 17, 2026';
+---
+
+<Base>
+  <Header />
+  <main class="mx-auto max-w-3xl px-5 py-20 md:py-28">
+    <div class="flex items-center gap-3">
+      <span class="helix h-5 w-1.5 rounded-full" aria-hidden="true"></span>
+      <span class="ledger text-xs text-accent">The fine print</span>
+    </div>
+    <h1 class="mt-4 text-5xl font-extrabold text-ink md:text-6xl">Privacy Policy</h1>
+    <p class="ledger mt-4 text-[0.7rem] text-ink-3">Last updated: {lastUpdated}</p>
+
+    <div class="mt-10 space-y-12">
+      <p class="text-lg leading-relaxed text-ink-2">
+        {business.name} is a one-chair barbershop in Cove, Utah, run by Max, taking clients from
+        across Cache Valley. This policy explains what limited information this site collects when
+        you visit or get in touch, and how it is used. The short version: the site is built to stay
+        quiet. It runs no advertising trackers, sets no advertising cookies, and only handles the
+        details you choose to send when you reach out to book.
+      </p>
+
+      <section class="space-y-4">
+        <h2 class="text-3xl font-extrabold text-ink">Information you give us</h2>
+        <p class="leading-relaxed text-ink-2">
+          When you call or text {phone}, or send a message through the contact form on this site,
+          you share the details you choose to give. The contact form collects your name, email,
+          phone number, and your message. That information is used for one thing: to respond to you
+          and book your appointment. It is not sold, rented, or used for marketing.
+        </p>
+        <p class="leading-relaxed text-ink-2">
+          Form submissions are handled by a form service that relays them by email to the shop, and
+          calls and texts go straight to Max's phone. Please send only what you are comfortable
+          sharing.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-3xl font-extrabold text-ink">Information collected automatically</h2>
+        <p class="leading-relaxed text-ink-2">
+          Like every website, this one is served over the internet, so some standard technical
+          information reaches the hosting provider whenever a page loads. This site is hosted on
+          Cloudflare, and Cloudflare processes standard request data such as your IP address,
+          browser type, and the referring page in order to deliver the site and keep it secure. This
+          is ordinary server and network information, not something the shop reviews about you
+          personally.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-3xl font-extrabold text-ink">Analytics</h2>
+        <p class="leading-relaxed text-ink-2">
+          This site uses Cloudflare Web Analytics to understand roughly how many people visit and
+          which pages they read. It is privacy-first by design: it sets no cookies, does not use
+          fingerprinting, and collects no personal information. It does not build a profile of you or
+          follow you across other sites.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-3xl font-extrabold text-ink">Cookies</h2>
+        <p class="leading-relaxed text-ink-2">
+          This site sets no advertising cookies and runs no cross-site tracking. There is no ad
+          network and no marketing pixel here. The site does load fonts from Google Fonts so the
+          pages render as intended, and when a font loads your browser requests it from Google, which
+          means Google may log standard request data such as your IP address as part of serving the
+          font.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-3xl font-extrabold text-ink">Your choices and rights</h2>
+        <p class="leading-relaxed text-ink-2">
+          Your personal information is never sold. You can ask to see, correct, or delete any details
+          you have sent to the shop at any time by getting in touch. Under laws such as the
+          California Consumer Privacy Act, California residents may opt out of the sharing of personal
+          information for advertising. This site does not share your information for advertising, so
+          there is nothing to opt out of.
+        </p>
+        <p class="leading-relaxed text-ink-2">
+          To make any request, call or text {phone}.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-3xl font-extrabold text-ink">Changes and contact</h2>
+        <p class="leading-relaxed text-ink-2">
+          This policy may be updated from time to time. When it changes, the "Last updated" date at
+          the top of this page will change with it. If you have any questions about privacy or about
+          the information you have shared, call or text Max at
+          <a
+            href={`tel:${tel}`}
+            class="text-accent underline underline-offset-4 hover:text-ink">{phone}</a
+          >.
+        </p>
+      </section>
+    </div>
+  </main>
+  <Footer />
+</Base>
