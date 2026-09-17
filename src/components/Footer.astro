@@ -42,6 +42,12 @@ const social = Object.entries(contact.social || {}).filter(([, v]) => v);
     <div class="ledger space-y-1 text-[0.65rem] text-ink-3 md:text-right">
       <div>&copy; {year} {business.name}</div>
       <div>
+        <a
+          href="/privacy/"
+          class="text-ink-2 underline underline-offset-4 hover:text-accent">Privacy</a
+        >
+      </div>
+      <div>
         Created by <a
           href="https://vient.org"
           target="_blank"
